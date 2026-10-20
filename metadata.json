@@ -1,0 +1,6 @@
+{
+  "name": "Live Sales Sync iOS Dashboard",
+  "description": "แดชบอร์ดยอดขาย Real-time ซิงค์ Google Sheets ดีไซน์การ์ดสไตล์ iOS รองรับ Dark Mode กราฟสรุปรายวัน และติดตามเป้าหมาย สรุปภาพรวม Msc Pia",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

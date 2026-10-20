@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ios-bg: #F2F2F7;
+    --ios-card: rgba(255, 255, 255, 0.85);
+    --ios-card-border: rgba(0, 0, 0, 0.06);
+    --ios-subtext: #8E8E93;
+    --ios-blue: #007AFF;
+    --ios-green: #34C759;
+    --ios-indigo: #5856D6;
+    --ios-orange: #FF9500;
+    --ios-pink: #FF2D55;
+    --ios-purple: #AF52DE;
+    --ios-red: #FF3B30;
+    --ios-teal: #5AC8FA;
+    --ios-yellow: #FFCC00;
+  }
+
+  .dark {
+    --ios-bg: #000000;
+    --ios-card: rgba(28, 28, 30, 0.82);
+    --ios-card-border: rgba(255, 255, 255, 0.1);
+    --ios-subtext: #98989D;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Sarabun", "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--ios-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism iOS card utilities */
+.ios-card {
+  background-color: var(--ios-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ios-card-border);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+}
+
+.dark .ios-card {
+  box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.5), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.ios-card-solid {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .ios-card-solid {
+  background-color: #1C1C1E;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(142, 142, 147, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(142, 142, 147, 0.5);
+}
+
+/* Pulse animation for Live Sync badge */
+@keyframes live-pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(52, 199, 89, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+  }
+}
+
+.animate-live-dot {
+  animation: live-pulse 2s infinite;
+}
