@@ -15,6 +15,7 @@ import { TeamBranchView } from './components/TeamBranchView';
 import { StaffTrackingView } from './components/StaffTrackingView';
 import { ServicesKPIView } from './components/ServicesKPIView';
 import { GoogleSheetSyncModal } from './components/GoogleSheetSyncModal';
+import { BottomNav } from './components/BottomNav';
 import { CheckCircle2, AlertCircle, RefreshCw, Sparkles } from 'lucide-react';
 
 export default function App() {
@@ -162,20 +163,22 @@ export default function App() {
         autoSyncSeconds={autoSyncSeconds}
       />
 
-      {/* Segmented Navigation Tabs */}
-      <NavigationTabs
-        activeTab={activeTab === 'sync' ? 'overview' : activeTab}
-        onChangeTab={(tab) => {
-          if (tab === 'sync') {
-            setSyncModalOpen(true);
-          } else {
-            setActiveTab(tab);
-          }
-        }}
-      />
+      {/* Segmented Navigation Tabs (Desktop & Tablet) */}
+      <div className="hidden sm:block">
+        <NavigationTabs
+          activeTab={activeTab === 'sync' ? 'overview' : activeTab}
+          onChangeTab={(tab) => {
+            if (tab === 'sync') {
+              setSyncModalOpen(true);
+            } else {
+              setActiveTab(tab);
+            }
+          }}
+        />
+      </div>
 
-      {/* Main View Area (Mobile Optimized) */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 mt-4 sm:mt-6">
+      {/* Main View Area (Mobile-First Thumb Friendly) */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 mt-3 sm:mt-6 pb-28 sm:pb-8">
         {activeTab === 'overview' && (
           <OverviewView
             data={data}
@@ -213,6 +216,14 @@ export default function App() {
           <ServicesKPIView data={data} />
         )}
       </main>
+
+      {/* Mobile Sticky Bottom Navigation (Native App Feel) */}
+      <BottomNav
+        activeTab={activeTab}
+        onChangeTab={(tab) => setActiveTab(tab)}
+        onOpenSyncModal={() => setSyncModalOpen(true)}
+        isSyncing={isSyncing}
+      />
 
       {/* Google Sheets Sync Settings Modal */}
       <GoogleSheetSyncModal

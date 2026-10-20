@@ -118,13 +118,16 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
 
   const cleanStaffItems = getStaffCleanItems(currentStaff);
   const staffTotalUnits = cleanStaffItems.reduce((sum, it) => sum + (it.units || 0), 0);
+  const staffTotalTarget = cleanStaffItems.reduce((sum, it) => sum + (it.target || 0), 0);
+  const staffTotalActual = cleanStaffItems.reduce((sum, it) => sum + (it.actual || 0), 0);
+  const staffTotalAchievePct = staffTotalTarget > 0 ? (staffTotalActual / staffTotalTarget) * 100 : 0;
 
   // Forecast (%) calculation
   const forecastMultiplier =
     data.overview?.sold > 0 && data.overview?.forecastBath > 0
       ? data.overview.forecastBath / data.overview.sold
       : 2.81827;
-  const totalForecastPct = currentStaff ? currentStaff.totalAchievePct * forecastMultiplier : 0;
+  const totalForecastPct = staffTotalAchievePct * forecastMultiplier;
 
   return (
     <div className="space-y-6 pb-12">
@@ -192,25 +195,25 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
             <div>
               <span className="text-[11px] text-zinc-400 font-medium block">ยอดขายจริงสะสม</span>
               <span className="text-xl sm:text-2xl font-black text-zinc-900 dark:text-white">
-                {formatBaht(currentStaff.totalActual)}
+                {formatBaht(staffTotalActual)}
               </span>
             </div>
             <div>
               <span className="text-[11px] text-zinc-400 font-medium block">เป้าหมายรวม Q4</span>
               <span className="text-xl sm:text-2xl font-bold text-zinc-500 dark:text-zinc-400">
-                {formatBaht(currentStaff.totalTarget)}
+                {formatBaht(staffTotalTarget)}
               </span>
             </div>
             <div>
               <span className="text-[11px] text-zinc-400 font-medium block">Achieve (%)</span>
               <span
                 className={`text-xl sm:text-2xl font-black ${
-                  currentStaff.totalAchievePct >= 50
+                  staffTotalAchievePct >= 50
                     ? 'text-emerald-600 dark:text-emerald-400'
                     : 'text-rose-600 dark:text-rose-400'
                 }`}
               >
-                {formatPercent(currentStaff.totalAchievePct)}
+                {formatPercent(staffTotalAchievePct)}
               </span>
             </div>
             <div>
@@ -226,7 +229,7 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
                   {totalForecastPct.toFixed(1)}%
                 </span>
                 <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
-                  ({formatCompactBaht(currentStaff.totalActual * forecastMultiplier)})
+                  ({formatCompactBaht(staffTotalActual * forecastMultiplier)})
                 </span>
               </div>
               <span className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold block">
@@ -241,15 +244,15 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
           <div className="w-full h-3 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-700"
-              style={{ width: `${Math.min(currentStaff.totalAchievePct, 100)}%` }}
+              style={{ width: `${Math.min(staffTotalAchievePct, 100)}%` }}
             />
           </div>
           <div className="flex justify-between text-[11px] text-zinc-400 font-medium">
             <span>0%</span>
             <span>
-              Forecast ประมาณการ: {formatBaht(currentStaff.totalActual * forecastMultiplier)} ({totalForecastPct.toFixed(1)}%) • ~{formatNumber(Math.round(staffTotalUnits * forecastMultiplier))} เครื่อง
+              Forecast ประมาณการ: {formatBaht(staffTotalActual * forecastMultiplier)} ({totalForecastPct.toFixed(1)}%) • ~{formatNumber(Math.round(staffTotalUnits * forecastMultiplier))} เครื่อง
             </span>
-            <span>100% Target ({formatCompactBaht(currentStaff.totalTarget)})</span>
+            <span>100% Target ({formatCompactBaht(staffTotalTarget)})</span>
           </div>
         </div>
 
@@ -414,20 +417,20 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
                     </span>
                   </td>
                   <td className="px-3.5 sm:px-4 py-3.5 text-zinc-700 dark:text-zinc-300 whitespace-nowrap">
-                    {formatBaht(currentStaff.totalTarget)}
+                    {formatBaht(staffTotalTarget)}
                   </td>
                   <td className="px-3.5 sm:px-4 py-3.5 text-blue-600 dark:text-blue-400 font-extrabold text-sm sm:text-base whitespace-nowrap">
-                    {formatBaht(currentStaff.totalActual)}
+                    {formatBaht(staffTotalActual)}
                   </td>
                   <td className="px-3.5 sm:px-4 py-3.5 text-center whitespace-nowrap">
                     <span
                       className={`px-2 py-0.5 rounded-lg text-xs font-black ${
-                        currentStaff.totalAchievePct >= 50
+                        staffTotalAchievePct >= 50
                           ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
                           : 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
                       }`}
                     >
-                      {formatPercent(currentStaff.totalAchievePct)}
+                      {formatPercent(staffTotalAchievePct)}
                     </span>
                   </td>
                   <td className="px-3.5 sm:px-4 py-3.5 text-center whitespace-nowrap">
@@ -442,7 +445,7 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
                         {totalForecastPct.toFixed(1)}%
                       </span>
                       <span className="text-[11px] sm:text-xs font-black text-zinc-900 dark:text-white">
-                        {formatBaht(currentStaff.totalActual * forecastMultiplier)}
+                        {formatBaht(staffTotalActual * forecastMultiplier)}
                       </span>
                       <span className="text-[10px] font-extrabold text-blue-600 dark:text-blue-400">
                         ~{formatNumber(Math.round(staffTotalUnits * forecastMultiplier))} เครื่อง/ชิ้น
