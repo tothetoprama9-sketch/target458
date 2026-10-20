@@ -59,32 +59,32 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col max-h-[92vh]">
         {/* Modal Header */}
-        <div className="p-6 border-b border-zinc-200/80 dark:border-zinc-800 flex items-center justify-between">
+        <div className="p-4 sm:p-6 border-b border-zinc-200/80 dark:border-zinc-800 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold shrink-0">
               <FileSpreadsheet className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-lg text-zinc-900 dark:text-white">
-                ตั้งค่าเชื่อมโยง Google Sheets (Live Sync)
+              <h3 className="font-bold text-base sm:text-lg text-zinc-900 dark:text-white">
+                ตั้งค่าเชื่อมโยง Google Sheets
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-[11px] sm:text-xs text-zinc-400">
                 วางลิงก์ Google Sheets เพื่ออัพเดทข้อมูลยอดขายแบบเรียลไทม์
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="p-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-6">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6">
           {/* Status Message */}
           {syncStatusMsg.text && (
             <div
@@ -237,21 +237,21 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
           </div>
         </div>
 
-        {/* Modal Footer */}
-        <div className="p-6 border-t border-zinc-200/80 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-wrap items-center justify-between gap-3">
+        {/* Modal Footer (Responsive on mobile) */}
+        <div className="p-4 sm:p-6 border-t border-zinc-200/80 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3">
           <button
             type="button"
             onClick={onResetToDefault}
-            className="text-xs font-semibold text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 underline"
+            className="text-xs font-semibold text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 underline text-center sm:text-left py-1"
           >
             กู้คืนข้อมูลชีตต้นฉบับ (Default Dataset)
           </button>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+              className="flex-1 sm:flex-none px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors min-h-[44px]"
             >
               ปิด
             </button>
@@ -259,10 +259,10 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
               type="button"
               onClick={handleApply}
               disabled={isSyncing}
-              className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 active:scale-95 transition-all shadow-md shadow-blue-500/20 disabled:opacity-50"
+              className="flex-2 sm:flex-none flex items-center justify-center space-x-2 px-5 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 active:scale-95 transition-all shadow-md shadow-blue-500/20 disabled:opacity-50 min-h-[44px]"
             >
               <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-              <span>{isSyncing ? 'กำลังบันทึกและซิงค์...' : 'บันทึกและซิงค์เดี๋ยวนี้'}</span>
+              <span>{isSyncing ? 'กำลังซิงค์...' : 'บันทึก & ซิงค์เดี๋ยวนี้'}</span>
             </button>
           </div>
         </div>

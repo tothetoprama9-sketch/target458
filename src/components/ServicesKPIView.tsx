@@ -40,13 +40,13 @@ export const ServicesKPIView: React.FC<ServicesKPIViewProps> = ({ data }) => {
           </p>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 bg-zinc-200/70 dark:bg-zinc-800/80 p-1 rounded-2xl self-start sm:self-auto overflow-x-auto">
+        {/* Filter Pills (2x2 grid on mobile, flex on desktop) */}
+        <div className="grid grid-cols-2 sm:flex items-center gap-1.5 bg-zinc-200/70 dark:bg-zinc-800/80 p-1 rounded-2xl w-full sm:w-auto">
           <button
             onClick={() => setFilter('all')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all min-h-[40px] text-center active:scale-95 ${
               filter === 'all'
-                ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm'
+                ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                 : 'text-zinc-600 dark:text-zinc-400'
             }`}
           >
@@ -54,9 +54,9 @@ export const ServicesKPIView: React.FC<ServicesKPIViewProps> = ({ data }) => {
           </button>
           <button
             onClick={() => setFilter('pass')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all min-h-[40px] text-center active:scale-95 ${
               filter === 'pass'
-                ? 'bg-emerald-500 text-white shadow-sm'
+                ? 'bg-emerald-500 text-white shadow-xs'
                 : 'text-emerald-600 dark:text-emerald-400'
             }`}
           >
@@ -64,9 +64,9 @@ export const ServicesKPIView: React.FC<ServicesKPIViewProps> = ({ data }) => {
           </button>
           <button
             onClick={() => setFilter('progress')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all min-h-[40px] text-center active:scale-95 ${
               filter === 'progress'
-                ? 'bg-amber-500 text-white shadow-sm'
+                ? 'bg-amber-500 text-white shadow-xs'
                 : 'text-amber-600 dark:text-amber-400'
             }`}
           >
@@ -74,9 +74,9 @@ export const ServicesKPIView: React.FC<ServicesKPIViewProps> = ({ data }) => {
           </button>
           <button
             onClick={() => setFilter('fail')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all min-h-[40px] text-center active:scale-95 ${
               filter === 'fail'
-                ? 'bg-rose-500 text-white shadow-sm'
+                ? 'bg-rose-500 text-white shadow-xs'
                 : 'text-rose-600 dark:text-rose-400'
             }`}
           >
@@ -85,8 +85,8 @@ export const ServicesKPIView: React.FC<ServicesKPIViewProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* 2. Search & Overview Banner */}
-      <div className="ios-card rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      {/* 2. Search & Overview Banner (Mobile-Optimized) */}
+      <div className="ios-card rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative w-full sm:w-72">
           <Search className="w-4 h-4 absolute left-3 top-3 text-zinc-400" />
           <input
@@ -94,13 +94,13 @@ export const ServicesKPIView: React.FC<ServicesKPIViewProps> = ({ data }) => {
             placeholder="ค้นหาประกัน / บริการ..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-zinc-900 dark:text-white"
+            className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-zinc-900 dark:text-white min-h-[44px]"
           />
         </div>
-        <div className="flex items-center gap-3 text-xs text-zinc-500 self-end sm:self-auto">
+        <div className="flex items-center justify-between sm:justify-end gap-3 text-xs text-zinc-500">
           <span>อัตราผ่านเฉลี่ย: <strong className="text-zinc-900 dark:text-white">{Math.round((passCount / kpis.length) * 100)}%</strong></span>
           <span>•</span>
-          <span>ชิ้นส่วนพ่วงรวม: <strong className="text-purple-600 dark:text-purple-400">{kpis.reduce((acc, k) => acc + k.actualUnits, 0)} รายการ</strong></span>
+          <span>พ่วงรวม: <strong className="text-purple-600 dark:text-purple-400">{kpis.reduce((acc, k) => acc + k.actualUnits, 0)} รายการ</strong></span>
         </div>
       </div>
 

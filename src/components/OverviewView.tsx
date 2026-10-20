@@ -26,24 +26,24 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
   return (
     <div className="space-y-6 pb-12">
       {/* 1. Main Hero Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6">
         {/* Main Grand Card: Total Sales vs Target (Col span 8) */}
-        <div className="lg:col-span-8 ios-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col justify-between">
+        <div className="lg:col-span-8 ios-card rounded-2xl sm:rounded-3xl p-4 sm:p-8 relative overflow-hidden flex flex-col justify-between">
           {/* Subtle iOS background glow */}
           <div className="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute right-32 -bottom-20 w-52 h-52 bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
 
           <div>
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3 sm:mb-4">
               <div className="flex items-center space-x-2">
                 <span className="p-2 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
                   <Target className="w-5 h-5" />
                 </span>
                 <div>
-                  <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                     ยอดขายรวมทุกหมวดหมู่ (All Target)
                   </h2>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                  <p className="text-[11px] sm:text-xs text-zinc-400 dark:text-zinc-500">
                     {overview.quarterLabel}
                   </p>
                 </div>
@@ -56,27 +56,27 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
               </div>
             </div>
 
-            {/* Big Numbers */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2 mb-6">
+            {/* Big Numbers & Activity Ring */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2 mb-4 sm:mb-6">
               <div>
-                <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">ขายได้จริงแล้ว (Actual Sold)</span>
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white mt-1">
+                <span className="text-[11px] sm:text-xs font-medium text-zinc-500 dark:text-zinc-400">ขายได้จริงแล้ว (Actual Sold)</span>
+                <div className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white mt-0.5">
                   {formatBaht(overview.sold)}
                 </div>
-                <div className="flex items-center gap-2 mt-2">
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
                   <span className="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
                     📦 รวม {formatNumber(overview.units)} {overview.unitsLabel || 'เครื่อง'}
                   </span>
                   <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                    เป้าหมาย {formatBaht(overview.target)}
+                    เป้า {formatBaht(overview.target)}
                   </span>
                 </div>
               </div>
 
               {/* Progress Metric Ring & Percent */}
-              <div className="flex items-center sm:justify-end gap-5">
+              <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-5 pt-2 sm:pt-0 border-t sm:border-t-0 border-zinc-200/60 dark:border-zinc-800">
                 {/* Custom iOS Activity Circular Progress */}
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center">
+                <div className="relative w-20 h-20 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                     <circle
                       cx="50"
@@ -99,23 +99,23 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    <span className="text-xl sm:text-2xl font-black text-zinc-900 dark:text-white">
+                    <span className="text-lg sm:text-2xl font-black text-zinc-900 dark:text-white">
                       {formatPercent(overview.achievePct)}
                     </span>
-                    <span className="text-[10px] font-semibold text-zinc-400 uppercase">Achieve</span>
+                    <span className="text-[9px] sm:text-[10px] font-semibold text-zinc-400 uppercase">Achieve</span>
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5 sm:space-y-2">
                   <div>
-                    <span className="text-[11px] text-zinc-400 dark:text-zinc-500 font-medium block">ห่างจากเป้าหมาย</span>
-                    <span className="text-base sm:text-lg font-bold text-amber-600 dark:text-amber-400">
+                    <span className="text-[10px] sm:text-[11px] text-zinc-400 dark:text-zinc-500 font-medium block">ห่างจากเป้าหมาย</span>
+                    <span className="text-sm sm:text-lg font-bold text-amber-600 dark:text-amber-400">
                       {formatBaht(overview.diff)}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[11px] text-zinc-400 dark:text-zinc-500 font-medium block">ประมาณการสิ้นเดือน (Forecast)</span>
-                    <span className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                    <span className="text-[10px] sm:text-[11px] text-zinc-400 dark:text-zinc-500 font-medium block">ประมาณการสิ้นเดือน (Forecast)</span>
+                    <span className="text-sm sm:text-lg font-bold text-emerald-600 dark:text-emerald-400">
                       {formatBaht(overview.forecastBath)}
                     </span>
                   </div>
@@ -301,13 +301,13 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
             </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 bg-zinc-200/70 dark:bg-zinc-800/80 p-1 rounded-xl self-start sm:self-auto">
+          {/* Filter Pills (Smooth scroll on mobile, flex on desktop) */}
+          <div className="flex items-center gap-1.5 bg-zinc-200/70 dark:bg-zinc-800/80 p-1 rounded-2xl overflow-x-auto no-scrollbar scroll-smooth w-full sm:w-auto -mx-1 px-1 sm:mx-0">
             <button
               onClick={() => setFilterGroup('all')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap min-h-[40px] shrink-0 active:scale-95 ${
                 filterGroup === 'all'
-                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm'
+                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
@@ -315,9 +315,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
             </button>
             <button
               onClick={() => setFilterGroup('apple')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap min-h-[40px] shrink-0 active:scale-95 ${
                 filterGroup === 'apple'
-                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm'
+                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
@@ -325,9 +325,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
             </button>
             <button
               onClick={() => setFilterGroup('it')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap min-h-[40px] shrink-0 active:scale-95 ${
                 filterGroup === 'it'
-                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm'
+                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
@@ -335,13 +335,13 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ data, onNavigateToTa
             </button>
             <button
               onClick={() => setFilterGroup('btb')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap min-h-[40px] shrink-0 active:scale-95 ${
                 filterGroup === 'btb'
-                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm'
+                  ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
-              🟡 Accessories / BTB
+              🟡 BTB
             </button>
           </div>
         </div>

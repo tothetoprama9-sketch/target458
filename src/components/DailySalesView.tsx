@@ -11,6 +11,7 @@ export const DailySalesView: React.FC<DailySalesViewProps> = ({ data }) => {
   const records = data.dailyRecords || [];
   const [selectedDay, setSelectedDay] = useState<DailySalesRecord>(records[records.length - 1] || records[0]);
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
+  const [mobileViewMode, setMobileViewMode] = useState<'cards' | 'table'>('cards');
 
   if (records.length === 0) {
     return (
@@ -73,13 +74,13 @@ export const DailySalesView: React.FC<DailySalesViewProps> = ({ data }) => {
           </p>
         </div>
 
-        {/* Chart View Switcher */}
-        <div className="flex items-center gap-1.5 bg-zinc-200/70 dark:bg-zinc-800/80 p-1 rounded-xl self-start sm:self-auto">
+        {/* Chart View Switcher (Full-width on mobile, flex on desktop) */}
+        <div className="grid grid-cols-2 sm:flex items-center gap-1.5 bg-zinc-200/70 dark:bg-zinc-800/80 p-1 rounded-2xl w-full sm:w-auto">
           <button
             onClick={() => setChartType('line')}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
               chartType === 'line'
-                ? 'bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                ? 'bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-xs'
                 : 'text-zinc-600 dark:text-zinc-400'
             }`}
           >
@@ -88,9 +89,9 @@ export const DailySalesView: React.FC<DailySalesViewProps> = ({ data }) => {
           </button>
           <button
             onClick={() => setChartType('bar')}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
               chartType === 'bar'
-                ? 'bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                ? 'bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-xs'
                 : 'text-zinc-600 dark:text-zinc-400'
             }`}
           >
@@ -163,6 +164,11 @@ export const DailySalesView: React.FC<DailySalesViewProps> = ({ data }) => {
               <span className="text-zinc-600 dark:text-zinc-300">เกณฑ์เป้าหมายต่อวัน</span>
             </div>
           </div>
+        </div>
+
+        {/* Mobile Swipe Hint */}
+        <div className="sm:hidden mb-3 text-center text-[11px] text-blue-600 dark:text-blue-400 bg-blue-50/70 dark:bg-blue-950/40 py-1.5 px-3 rounded-xl border border-blue-100 dark:border-blue-900/50">
+          👆 ปัดกราฟแนวนอนเพื่อดูข้อมูลแต่ละวัน
         </div>
 
         {/* SVG Render Container */}
@@ -388,18 +394,116 @@ export const DailySalesView: React.FC<DailySalesViewProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* 4. Day-by-Day Table */}
-      <div className="ios-card rounded-3xl overflow-hidden">
-        <div className="p-5 border-b border-zinc-200/60 dark:border-zinc-800 flex items-center justify-between">
-          <h3 className="font-bold text-zinc-900 dark:text-white text-base">
-            ตารางยอดขายรายวันแบบละเอียด (TODAY_10_69)
-          </h3>
-          <span className="text-xs text-zinc-400">
-            {records.length} วันทำการ
-          </span>
+      {/* 4. Day-by-Day Table (Mobile-friendly Cards & Full Table Toggle) */}
+      <div className="ios-card rounded-2xl sm:rounded-3xl overflow-hidden">
+        <div className="p-3.5 sm:p-5 border-b border-zinc-200/60 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-2.5">
+          <div>
+            <h3 className="font-bold text-zinc-900 dark:text-white text-sm sm:text-base">
+              ยอดขายรายวันแบบละเอียด (TODAY_10_69)
+            </h3>
+            <p className="text-[11px] sm:text-xs text-zinc-400">
+              {records.length} วันทำการ • แตะเพื่อดูกราฟด้านบน
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* Mobile View Toggle */}
+            <div className="flex sm:hidden items-center gap-1 bg-zinc-200/70 dark:bg-zinc-800/80 p-0.5 rounded-xl border border-zinc-300/50 dark:border-zinc-700/50 text-[11px]">
+              <button
+                onClick={() => setMobileViewMode('cards')}
+                className={`px-2.5 py-1.5 rounded-lg font-bold transition-all min-h-[36px] ${
+                  mobileViewMode === 'cards'
+                    ? 'bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-xs'
+                    : 'text-zinc-600 dark:text-zinc-400'
+                }`}
+              >
+                📱 การ์ดรายวัน
+              </button>
+              <button
+                onClick={() => setMobileViewMode('table')}
+                className={`px-2.5 py-1.5 rounded-lg font-bold transition-all min-h-[36px] ${
+                  mobileViewMode === 'table'
+                    ? 'bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-xs'
+                    : 'text-zinc-600 dark:text-zinc-400'
+                }`}
+              >
+                📊 ตารางเต็ม
+              </button>
+            </div>
+
+            <span className="text-xs text-zinc-400 hidden sm:inline">
+              {records.length} วันทำการ
+            </span>
+          </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* 1. Mobile Cards List (Thumb-friendly daily cards) */}
+        <div className={`p-3 space-y-2.5 sm:hidden ${mobileViewMode === 'cards' ? 'block' : 'hidden'}`}>
+          {records.map((row) => {
+            const isOver = row.sales >= row.target;
+            const pct = Math.round((row.sales / row.target) * 100);
+            const isSelected = selectedDay.day === row.day;
+
+            return (
+              <div
+                key={`daily-card-${row.day}`}
+                onClick={() => setSelectedDay(row)}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer active:scale-98 ${
+                  isSelected
+                    ? 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/50 shadow-sm'
+                    : 'bg-zinc-50 dark:bg-zinc-800/40 border-zinc-200/70 dark:border-zinc-800'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="w-7 h-7 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center">
+                      {row.day}
+                    </span>
+                    <span className="font-bold text-sm text-zinc-900 dark:text-white">
+                      {row.dateStr}
+                    </span>
+                  </div>
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-bold ${
+                      isOver
+                        ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
+                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
+                    }`}
+                  >
+                    {pct}% {isOver ? '🔥 ทะลุเป้า' : ''}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="p-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800">
+                    <span className="text-[10px] text-zinc-400 block font-medium">ยอดขายจริง</span>
+                    <span className="text-sm font-black text-blue-600 dark:text-blue-400">
+                      {formatBaht(row.sales)}
+                    </span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800">
+                    <span className="text-[10px] text-zinc-400 block font-medium">เป้าหมายประจำวัน</span>
+                    <span className="text-sm font-bold text-zinc-600 dark:text-zinc-300">
+                      {formatBaht(row.target)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-2 pt-2 border-t border-zinc-200/50 dark:border-zinc-700/40 text-[11px] text-zinc-500 dark:text-zinc-400">
+                  <span>📦 {formatNumber(row.units)} เครื่อง</span>
+                  <span>สะสม: <strong className="text-emerald-600 dark:text-emerald-400">{formatCompactBaht(row.cumulativeSales)}</strong></span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 2. Full Table View */}
+        <div className={`overflow-x-auto ${mobileViewMode === 'table' ? 'block' : 'hidden sm:block'}`}>
+          {/* Mobile scroll hint */}
+          <div className="sm:hidden px-4 py-2 bg-blue-50/70 dark:bg-blue-950/40 text-[11px] text-blue-700 dark:text-blue-300 text-center font-medium border-b border-blue-100 dark:border-blue-900/50">
+            👆 เลื่อนตารางแนวนอนเพื่อดูข้อมูลทุกคอลัมน์
+          </div>
           <table className="w-full text-left text-xs sm:text-sm">
             <thead className="bg-zinc-100/70 dark:bg-zinc-800/60 text-zinc-500 dark:text-zinc-400 font-semibold uppercase text-[11px] tracking-wider">
               <tr>

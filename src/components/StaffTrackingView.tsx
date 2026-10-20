@@ -139,8 +139,8 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
           </p>
         </div>
 
-        {/* Staff Switcher Pills (Names only: โจโฉ, โย, คิม) */}
-        <div className="flex items-center gap-2 bg-zinc-200/80 dark:bg-zinc-800/80 p-1.5 rounded-2xl overflow-x-auto self-start sm:self-auto border border-zinc-300/50 dark:border-zinc-700/50">
+        {/* Staff Switcher Pills (Responsive grid on mobile, flex on desktop) */}
+        <div className="grid grid-cols-3 sm:flex items-center gap-1.5 sm:gap-2 bg-zinc-200/80 dark:bg-zinc-800/80 p-1 rounded-2xl w-full sm:w-auto border border-zinc-300/50 dark:border-zinc-700/50">
           {staffList.map((st) => {
             const isSelected = selectedStaffId === st.id;
             const displayName = st.name.replace(/^[0-9\s]+/, '').trim() || st.name;
@@ -148,14 +148,14 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
               <button
                 key={st.id}
                 onClick={() => setSelectedStaffId(st.id)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 ${
+                className={`flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all min-h-[44px] active:scale-95 ${
                   isSelected
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
                     : 'text-zinc-700 dark:text-zinc-300 hover:bg-white/60 dark:hover:bg-zinc-700/60'
                 }`}
               >
-                <span className="text-base">{st.avatar || '👤'}</span>
-                <span>{displayName}</span>
+                <span className="text-base shrink-0">{st.avatar || '👤'}</span>
+                <span className="truncate">{displayName}</span>
               </button>
             );
           })}
@@ -163,15 +163,15 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
       </div>
 
       {/* 2. Staff Profile Hero Card */}
-      <div className="ios-card rounded-3xl p-6 sm:p-7 relative overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-orange-500/20 shrink-0">
+      <div className="ios-card rounded-2xl sm:rounded-3xl p-4 sm:p-7 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center text-2xl sm:text-3xl shadow-lg shadow-orange-500/20 shrink-0">
               {currentStaff.avatar || '👨‍💼'}
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-xl sm:text-2xl font-black text-zinc-900 dark:text-white">
+                <h3 className="text-lg sm:text-2xl font-black text-zinc-900 dark:text-white">
                   👤 {currentStaff.name.replace(/^[0-9\s]+/, '').trim()}
                 </h3>
                 <span
@@ -190,17 +190,17 @@ export const StaffTrackingView: React.FC<StaffTrackingViewProps> = ({ data }) =>
             </div>
           </div>
 
-          {/* Aggregate Numbers */}
-          <div className="flex flex-wrap items-center gap-5 sm:gap-7 border-t md:border-t-0 md:border-l border-zinc-200 dark:border-zinc-800 pt-4 md:pt-0 md:pl-8">
+          {/* Aggregate Numbers (Responsive 2-column on mobile) */}
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-3 sm:gap-7 border-t md:border-t-0 md:border-l border-zinc-200 dark:border-zinc-800 pt-3 md:pt-0 md:pl-8">
             <div>
-              <span className="text-[11px] text-zinc-400 font-medium block">ยอดขายจริงสะสม</span>
-              <span className="text-xl sm:text-2xl font-black text-zinc-900 dark:text-white">
+              <span className="text-[10px] sm:text-[11px] text-zinc-400 font-medium block">ยอดขายจริงสะสม</span>
+              <span className="text-base sm:text-2xl font-black text-zinc-900 dark:text-white">
                 {formatBaht(staffTotalActual)}
               </span>
             </div>
             <div>
-              <span className="text-[11px] text-zinc-400 font-medium block">เป้าหมายรวม Q4</span>
-              <span className="text-xl sm:text-2xl font-bold text-zinc-500 dark:text-zinc-400">
+              <span className="text-[10px] sm:text-[11px] text-zinc-400 font-medium block">เป้าหมายรวม Q4</span>
+              <span className="text-base sm:text-2xl font-bold text-zinc-500 dark:text-zinc-400">
                 {formatBaht(staffTotalTarget)}
               </span>
             </div>
